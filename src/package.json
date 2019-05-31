@@ -1,0 +1,13 @@
+{
+  "name": "csv-tool",
+  "version": "1.0.0",
+  "license": "MIT",
+  "bin": {
+    "csv-tool": "bin/csv-tool"
+  },
+  "scripts": {},
+  "devDependencies": {},
+  "dependencies": {
+    "minimist": "^1.2.0"
+  }
+}
