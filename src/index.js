@@ -13,20 +13,8 @@ module.exports = () => {
     }
 
     switch(cmd) {
-        case 'merge' :
-            require("./cmd/Csv/Merge")(args)
-            break;
-
-        case 'to-array' :
-            require("./cmd/Algorithms/ToArray")(args)
-            break;
-
-        case 'find-not-in-lists' :
-            require("./cmd/Algorithms/NotInBothLists")(args)
-            break;
-
-        case 'match-product-to-category' :
-            require("./cmd/Csv/Merge")(args)
+        case 'process-csv' :
+            require('./cmd/Csv/Process')(args)
             break;
 
         case 'version':
