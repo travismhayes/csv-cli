@@ -2,7 +2,7 @@ const menus = {
     'main': `
         csv-tool [command] <options>
 
-        merge .............. merges data from two csv's and exports to the ./csv folder;
+        process-csv .............. processes the javascript in the Process.js file;
 
         version ............ show package version
         help ............... show help menu for a command`,
@@ -13,16 +13,12 @@ const menus = {
         --file-path-1 '/to/csv/file1.csv' --file-path-2 '/to/csv/file2.csv'........ location of the csv/'s
     `,
 
-    'replace': `
-        csv-tool replace <options>
+    'process-csv': `
+        csv-tool process-csv
     `,
 
-    'add-headers': `
+    'add-output-headers': `
         csv-tool add-headers <options>
-    `,
-
-    'not-in-both-lists': `
-        csv-tool find-in <options>
     `,
 
 }
