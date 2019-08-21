@@ -14,11 +14,11 @@ module.exports = () => {
 
     switch(cmd) {
         case 'create-command' :
-            require('./cmd/CreateCommand')(args)
+            require('./cmd/create-command')(args)
             break;
 
         case 'process-csv' :
-            require('./cmd/Csv/Process')(args)
+            require('./cmd/Csv/process')(args)
             break;
 
         case 'version':
