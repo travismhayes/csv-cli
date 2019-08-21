@@ -1,6 +1,6 @@
 module.exports = (args) => {
 	const path = require('path');
-	const helper = require('../../Helper/csv-helpers');
+	const helper = require('../../helpers/csv-helpers');
 	const path1 = path.join(__dirname, '../../in/categories.csv');
 	const path2 = path.join(__dirname, '../../in/product.csv');
 

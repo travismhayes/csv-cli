@@ -18,7 +18,7 @@ module.exports = () => {
             break;
 
         case 'process-csv' :
-            require('./cmd/Csv/process')(args)
+            require('./cmd/csv/process')(args)
             break;
 
         case 'version':

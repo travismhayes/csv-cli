@@ -39,7 +39,7 @@ module.exports = (args) => {
         + "}";
 
         // create the file and generate the bolier plate code then display a message to the user
-        fs.writeFile('src/cmd/Csv/process.js', codeGenerator, function(val) {
+        fs.writeFile('src/cmd/csv/process.js', codeGenerator, function(val) {
           console.log('finished generating code!');
         });
     });
