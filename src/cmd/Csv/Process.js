@@ -7,15 +7,8 @@ module.exports = (args) => {
 	let csv1 = helper.parseCsvToArray(path1);
 	let csv2 = helper.parseCsvToArray(path2);
 
-	let csvArr1 = csv1.then(function(value){ 
-		//write callback
+	Promise.all([csv1,csv2]).then(function(values) {
+			// Write Your Custom Code Here
 	});
-	let csvArr2 = csv2.then(function(value){ 
-		//write callback
-	});
-
-	/**
-	* Write Your Custom Code Here
-	*/
 
 }

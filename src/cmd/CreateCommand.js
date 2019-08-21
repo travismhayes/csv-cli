@@ -17,16 +17,14 @@ module.exports = (args) => {
 
         let createCsvPath = "";
         let createCsvObj = "";
-        let createCsvCallback = "";
+        let promises = [];
         let count = 1;
         for(let i = 0; i < csvFiles.length; i++) {
           createCsvPath += "\t" + "const " + "path" + count + " = path.join(__dirname, '../../in/" + csvFiles[i] + "');" + "\n";
           createCsvObj += "\t" + "let " + "csv" + count + " = helper.parseCsvToArray(" + "path" + count + ");" + "\n";
-          createCsvCallback += "\t" + "let " + "csvArr" + count + " = " + "csv" + count + ".then(function(value){ " + '\n'
-                                + '\t' + '\t' + "//write callback" + '\n' + '\t' + "});" + "\n";
+          promises.push("csv" + count);
           count++;
         }
-
 
         //build out the code that will be used as boiler plate
         let codeGenerator = "module.exports = (args) => {" + '\n'
@@ -34,10 +32,9 @@ module.exports = (args) => {
         + '\t' + "const helper = require('../../Helper/csv-helpers');" + '\n'
         + createCsvPath + '\n'
         + createCsvObj + '\n'
-        + createCsvCallback + '\n'
-        + '\t' + "/**" + '\n'
-        + '\t' + "*" + " Write Your Custom Code Here" + '\n'
-        + '\t' + "*/" + '\n'
+        + '\t' + "Promise.all([" + promises + "]).then(function(values) {" + '\n'
+        + '\t' + '\t' + '\t' + "//" + " Write Your Custom Code Here" + '\n'
+        + '\t' + "});" + '\n'
         + '\n'
         + "}";
 
