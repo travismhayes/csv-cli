@@ -2,7 +2,7 @@ const menus = {
     'main': `
         csv-tool [command] <options>
 
-        process-csv .............. processes the javascript in the Process.js file;
+        create-command .............. creates a command and scafolds a template to edit;
 
         version ............ show package version
         help ............... show help menu for a command`,
@@ -13,8 +13,8 @@ const menus = {
         --file-path-1 '/to/csv/file1.csv' --file-path-2 '/to/csv/file2.csv'........ location of the csv/'s
     `,
 
-    'process-csv': `
-        csv-tool process-csv
+    'create-command': `
+        csv-tool create-command
     `,
 
     'add-output-headers': `
