@@ -54,7 +54,7 @@ module.exports = (args) => {
     //TODO: add function to verify that the new command being generated doesn't already exist. if it does stop excuction and tell user.
     function generateCommand() {
       let idx = 0;
-      let data = fs.readFileSync('src/index.js').toString().split("\n");
+      let data = fs.readFileSync('src/index.js').toString().split('\n');
       for(let i = 0; i < data.length; i++) {
           let currentLine = data[i];
           if(currentLine.indexOf('default:') !== -1 ) {
@@ -63,11 +63,11 @@ module.exports = (args) => {
       }
 
       let command = '\t' + '\t' + '\t' + '\t' + "case 'test':" + '\n'
-      + '\t' + '\t' + '\t' + '\t' + '\t' + "require('./cmd/help')(args)" + '\n'
-      + '\t' + '\t' + '\t' + '\t' + '\t' + "break;" + '\n';
+        + '\t' + '\t' + '\t' + '\t' + '\t' + "require('./cmd/help')(args)" + '\n'
+        + '\t' + '\t' + '\t' + '\t' + '\t' + "break;" + '\n';
 
       data.splice(idx, 0, command);
-      let text = data.join("\n");
+      let text = data.join('\n');
 
       fs.writeFile('src/index.js', text, function (err) {
         if (err) return console.log(err);
