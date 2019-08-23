@@ -14,20 +14,24 @@ module.exports = (args) => {
         files.forEach(function (file) {
             csvFiles.push(file);
         });
+        generateFile();
+    });
 
-        let createCsvPath = "";
-        let createCsvObj = "";
-        let promises = [];
-        let count = 1;
-        for(let i = 0; i < csvFiles.length; i++) {
-          createCsvPath += "\t" + "const " + "path" + count + " = path.join(__dirname, '../../in/" + csvFiles[i] + "');" + "\n";
-          createCsvObj += "\t" + "let " + "csv" + count + " = helper.parseCsvToArray(" + "path" + count + ");" + "\n";
-          promises.push("csv" + count);
-          count++;
-        }
+    //TODO: finish functionailty to build file name from arg passed.
+    function generateFile() {
+      let createCsvPath = "";
+      let createCsvObj = "";
+      let promises = [];
+      let count = 1;
+      for(let i = 0; i < csvFiles.length; i++) {
+        createCsvPath += "\t" + "const " + "path" + count + " = path.join(__dirname, '../../in/" + csvFiles[i] + "');" + "\n";
+        createCsvObj += "\t" + "let " + "csv" + count + " = helper.parseCsvToArray(" + "path" + count + ");" + "\n";
+        promises.push("csv" + count);
+        count++;
+      }
 
-        //build out the code that will be used as boiler plate
-        let codeGenerator = "module.exports = (args) => {" + '\n'
+      //build out the code that will be used as boiler plate
+      let codeGenerator = "module.exports = (args) => {" + '\n'
         + '\t' + "const path = require('path');" + '\n'
         + '\t' + "const helper = require('../../helpers/csv-helpers');" + '\n'
         + createCsvPath + '\n'
@@ -38,9 +42,36 @@ module.exports = (args) => {
         + '\n'
         + "}";
 
-        // create the file and generate the bolier plate code then display a message to the user
-        fs.writeFile('src/cmd/csv/process.js', codeGenerator, function(val) {
-          console.log('finished generating code!');
-        });
-    });
+      // create the file and generate the bolier plate code then display a message to the user
+      fs.writeFile('src/cmd/csv/process.js', codeGenerator, function(err) {
+        if (err) return console.log(err);
+        console.log('finished generating code!');
+      });
+      generateCommand();
+    }
+
+    //TODO: pass through new command name and add it to the command var.
+    //TODO: add function to verify that the new command being generated doesn't already exist. if it does stop excuction and tell user.
+    function generateCommand() {
+      let idx = 0;
+      let data = fs.readFileSync('src/index.js').toString().split("\n");
+      for(let i = 0; i < data.length; i++) {
+          let currentLine = data[i];
+          if(currentLine.indexOf('default:') !== -1 ) {
+              idx = i;
+          }
+      }
+
+      let command = '\t' + '\t' + '\t' + '\t' + "case 'test':" + '\n'
+      + '\t' + '\t' + '\t' + '\t' + '\t' + "require('./cmd/help')(args)" + '\n'
+      + '\t' + '\t' + '\t' + '\t' + '\t' + "break;" + '\n';
+
+      data.splice(idx, 0, command);
+      let text = data.join("\n");
+
+      fs.writeFile('src/index.js', text, function (err) {
+        if (err) return console.log(err);
+      });
+
+    }
 }
