@@ -5,7 +5,6 @@ let csvFiles = [];
 
 //TODO: finish functionailty to build file name from arg passed.
 function generateFile(args) {
-  console.log(args)
   fs.readdir(inputDirectoryPath, function (err, files) {
       //handling error
       if (err) {
