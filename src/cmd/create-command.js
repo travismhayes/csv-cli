@@ -1,24 +1,20 @@
-module.exports = (args) => {
-    const fs = require('fs');
-    const path = require('path');
-    const inputDirectoryPath = path.join(__dirname, '../in');
-    let csvFiles = [];
+const fs = require('fs');
+const path = require('path');
+const inputDirectoryPath = path.join(__dirname, '../in');
+let csvFiles = [];
 
-    //loop through csv files and get the names and paths
-    fs.readdir(inputDirectoryPath, function (err, files) {
-        //handling error
-        if (err) {
-            return console.log('Unable to scan directory: ' + err);
-        }
-        //listing all files using forEach
-        files.forEach(function (file) {
-            csvFiles.push(file);
-        });
-        generateFile();
-    });
-
-    //TODO: finish functionailty to build file name from arg passed.
-    function generateFile() {
+//TODO: finish functionailty to build file name from arg passed.
+function generateFile(args) {
+  console.log(args)
+  fs.readdir(inputDirectoryPath, function (err, files) {
+      //handling error
+      if (err) {
+          return console.log('Unable to scan directory: ' + err);
+      }
+      //listing all files using forEach
+      files.forEach(function (file) {
+          csvFiles.push(file);
+      });
       let createCsvPath = "";
       let createCsvObj = "";
       let promises = [];
@@ -37,7 +33,7 @@ module.exports = (args) => {
         + createCsvPath + '\n'
         + createCsvObj + '\n'
         + '\t' + "Promise.all([" + promises + "]).then(function(values) {" + '\n'
-        + '\t' + '\t' + '\t' + "//" + " Write Your Custom Code Here" + '\n'
+        + '\t' + '\t' + "//" + " Write Your Custom Code Here" + '\n'
         + '\t' + "});" + '\n'
         + '\n'
         + "}";
@@ -47,31 +43,39 @@ module.exports = (args) => {
         if (err) return console.log(err);
         console.log('finished generating code!');
       });
-      generateCommand();
-    }
+  });
+}
 
-    //TODO: pass through new command name and add it to the command var.
-    //TODO: add function to verify that the new command being generated doesn't already exist. if it does stop excuction and tell user.
-    function generateCommand() {
-      let idx = 0;
-      let data = fs.readFileSync('src/index.js').toString().split('\n');
-      for(let i = 0; i < data.length; i++) {
-          let currentLine = data[i];
-          if(currentLine.indexOf('default:') !== -1 ) {
-              idx = i;
-          }
+//TODO: pass through new command name and add it to the command var.
+//TODO: add function to verify that the new command being generated doesn't already exist. if it does stop excuction and tell user.
+function generateCommand(args) {
+  let idx = 0;
+  let data = fs.readFileSync('src/index.js').toString().split('\n');
+  for(let i = 0; i < data.length; i++) {
+      let currentLine = data[i];
+      if(currentLine.indexOf('default:') !== -1 ) {
+          idx = i;
       }
+  }
 
-      let command = '\t' + '\t' + '\t' + '\t' + "case 'test':" + '\n'
-        + '\t' + '\t' + '\t' + '\t' + '\t' + "require('./cmd/help')(args)" + '\n'
-        + '\t' + '\t' + '\t' + '\t' + '\t' + "break;" + '\n';
+  let command = '\t' + '\t' + '\t' + '\t' + "case 'test':" + '\n'
+    + '\t' + '\t' + '\t' + '\t' + '\t' + "require('./cmd/help')(args)" + '\n'
+    + '\t' + '\t' + '\t' + '\t' + '\t' + "break;" + '\n';
 
-      data.splice(idx, 0, command);
-      let text = data.join('\n');
+  data.splice(idx, 0, command);
+  let text = data.join('\n');
 
-      fs.writeFile('src/index.js', text, function (err) {
-        if (err) return console.log(err);
-      });
+  fs.writeFile('src/index.js', text, function (err) {
+    if (err) return console.log(err);
+  });
 
-    }
+}
+
+function run(args) {
+  generateFile(args);
+  generateCommand(args);
+}
+
+module.exports = (args) => {
+  run: run(args)
 }
